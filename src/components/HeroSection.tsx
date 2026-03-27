@@ -29,18 +29,18 @@ const HeroSection = () => {
             transition={{ delay: 0.3 }}
             className="inline-block text-gold font-body text-sm tracking-[0.25em] uppercase mb-6"
           >
-            Expert Plateformes Digitales
+            Solutions Digitales pour TPE & PME
           </motion.span>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground leading-[1.1] mb-6">
-            Des solutions sur mesure pour{" "}
-            <span className="text-gradient-gold">digitaliser</span> votre
-            entreprise
+            Vos{" "}
+            <span className="text-gradient-gold">solutions digitales</span>{" "}
+            sur mesure
           </h1>
 
           <p className="text-lg md:text-xl text-primary-foreground/70 font-body max-w-xl mb-10 leading-relaxed">
-            Conception de plateformes de gestion client et de demandes de devis
-            en ligne pour les TPE et PME.
+            Conception et déploiement de plateformes digitales : gestion client,
+            devis en ligne, automatisation et outils métiers pour les TPE et PME.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">

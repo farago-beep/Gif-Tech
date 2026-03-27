@@ -5,7 +5,7 @@ const Footer = () => (
         Digital<span className="text-gradient-gold">Pro</span>
       </span>
       <p className="text-primary-foreground/50 text-sm font-body mt-3">
-        © {new Date().getFullYear()} DigitalPro — Expert en solutions digitales pour TPE & PME
+        © {new Date().getFullYear()} DigitalPro — Solutions digitales sur mesure pour TPE & PME
       </p>
     </div>
   </footer>
