@@ -40,10 +40,10 @@ const ServicesSection = () => {
           className="text-center mb-16"
         >
           <span className="text-gold font-body text-sm tracking-[0.25em] uppercase">
-            Services
+            Solutions
           </span>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mt-3">
-            Mon expertise à votre service
+            Des outils digitaux adaptés à vos besoins
           </h2>
         </motion.div>
 
