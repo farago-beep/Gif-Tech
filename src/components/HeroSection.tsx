@@ -29,7 +29,7 @@ const HeroSection = () => {
             transition={{ delay: 0.3 }}
             className="inline-block text-gold font-body text-sm tracking-[0.25em] uppercase mb-6"
           >
-            Solutions Digitales pour TPE & PME
+            Growth · Innovation · Flexibility
           </motion.span>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground leading-[1.1] mb-6">
