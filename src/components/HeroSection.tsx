@@ -53,7 +53,7 @@ const HeroSection = () => {
                   ?.scrollIntoView({ behavior: "smooth" })
               }
             >
-              Voir mes réalisations
+              Nos réalisations
             </Button>
             <Button
               size="lg"
