@@ -6,133 +6,132 @@ const projects = [
     title: "Winty Dream",
     category: "E-commerce",
     description:
-      "Boutique en ligne spécialisée dans les produits Disney, Funko Pop et Loungefly. Catalogue produit, panier et expérience d'achat immersive.",
-    tags: ["E-commerce", "Catalogue", "UX Design"],
+      "Boutique en ligne spécialisée Disney, Funko Pop et Loungefly. Catalogue, panier et expérience d'achat immersive.",
+    tags: ["E-commerce", "Catalogue", "UX"],
     icon: ShoppingBag,
-    color: "from-[hsl(280,40%,25%)] to-[hsl(320,35%,35%)]",
+    accent: "from-fuchsia-500/20 to-purple-500/20",
     url: "https://id-preview--f8de5223-4784-44a1-910a-d7b8b16cb243.lovable.app",
-    status: "En cours",
+    status: "EN COURS",
   },
   {
     title: "Renovation Quotes Pro",
-    category: "Devis en Ligne",
+    category: "Devis intelligents",
     description:
-      "Plateforme de demande de devis pour les professionnels de la rénovation. Formulaire intelligent par catégorie de services avec estimation rapide.",
-    tags: ["Devis", "Formulaire", "Rénovation"],
+      "Plateforme de demande de devis pour pros de la rénovation. Formulaire intelligent par catégorie et estimation rapide.",
+    tags: ["Devis", "Form IA", "B2B"],
     icon: FileText,
-    color: "from-[hsl(var(--gold))] to-[hsl(30,50%,40%)]",
+    accent: "from-gold/25 to-orange-500/15",
     url: "https://id-preview--14a9f869-1a93-4f30-aea6-d757807b0dd7.lovable.app",
-    status: "En cours",
+    status: "EN COURS",
   },
   {
     title: "DigitalCareer",
-    category: "Consulting & Coaching",
+    category: "Conseil & Coaching",
     description:
-      "Site vitrine pour un cabinet de consulting emploi digital. Coaching personnalisé, optimisation CV, préparation entretiens et prise de rendez-vous.",
-    tags: ["Coaching", "Booking", "Landing Page"],
+      "Site vitrine pour cabinet de conseil emploi digital. Coaching personnalisé, optimisation CV et prise de rendez-vous.",
+    tags: ["Coaching", "Booking", "Landing"],
     icon: Compass,
-    color: "from-[hsl(var(--navy))] to-[hsl(var(--navy-light))]",
+    accent: "from-cyan/20 to-blue-500/15",
     url: "https://id-preview--5770c17e-fd2f-4843-9782-9a7e9fd4e55c.lovable.app",
-    status: "En cours",
+    status: "EN COURS",
   },
   {
     title: "École Ethic",
     category: "Formation Digitale",
     description:
-      "Plateforme pour une école du digital responsable. Présentation des formations certifiantes, pédagogie, témoignages et inscription newsletter.",
-    tags: ["Formation", "Newsletter", "Pédagogie"],
+      "Plateforme pour école du digital responsable. Présentation des formations, pédagogie, témoignages et inscription.",
+    tags: ["Formation", "Newsletter", "EdTech"],
     icon: GraduationCap,
-    color: "from-[hsl(160,40%,30%)] to-[hsl(180,35%,25%)]",
+    accent: "from-emerald-500/20 to-teal-500/15",
     url: "https://id-preview--042b153d-ff17-4e2c-9ccf-bcdb231d953a.lovable.app",
-    status: "En cours",
+    status: "EN COURS",
   },
 ];
 
 const PortfolioSection = () => {
   return (
-    <section id="portfolio" className="py-24 bg-muted/50">
-      <div className="container mx-auto px-6">
+    <section id="portfolio" className="relative py-28 bg-navy-deep overflow-hidden">
+      <div className="absolute inset-0 bg-grid opacity-30" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
+
+      <div className="container mx-auto px-6 relative">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="max-w-2xl mb-16"
         >
-          <span className="text-gold font-body text-sm tracking-[0.25em] uppercase">
-            Portfolio
+          <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-gold">
+            // Portfolio · Études de cas
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground mt-3">
-            Projets en cours
+          <h2 className="text-4xl md:text-5xl font-display font-semibold text-foreground mt-4 leading-tight">
+            Des projets qui <span className="text-gradient-gold italic font-normal">livrent du ROI</span>
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-lg mx-auto font-body">
-            Découvrez les solutions digitales que je développe actuellement pour
-            des clients dans différents secteurs.
+          <p className="text-foreground/60 mt-5 leading-relaxed">
+            Sélection de plateformes en production ou en cours de déploiement pour nos clients.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, i) => {
-            const Icon = project.icon;
+        <div className="grid md:grid-cols-2 gap-6">
+          {projects.map((p, i) => {
+            const Icon = p.icon;
             return (
               <motion.a
-                key={project.title}
-                href={project.url}
+                key={p.title}
+                href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="group relative bg-card rounded-2xl overflow-hidden border border-border/60 hover:border-gold/40 transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover"
               >
-                <div
-                  className={`h-48 md:h-56 bg-gradient-to-br ${project.color} flex items-center justify-center relative overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.12),transparent)]" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.15),transparent)]" />
+                {/* Visual header */}
+                <div className={`relative h-44 bg-gradient-to-br ${p.accent} overflow-hidden`}>
+                  <div className="absolute inset-0 bg-grid opacity-40" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
 
-                  <div className="relative z-10 flex flex-col items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                      <Icon className="w-7 h-7 text-primary-foreground" />
+                  <div className="relative z-10 h-full flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-2xl bg-background/40 backdrop-blur-md flex items-center justify-center border border-foreground/10">
+                      <Icon className="w-7 h-7 text-foreground/90" />
                     </div>
-                    <span className="text-2xl font-display font-bold text-primary-foreground/90">
-                      {project.title}
+                  </div>
+
+                  {/* Status badge with pulse */}
+                  <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/60 backdrop-blur-md border border-gold/30">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-gold opacity-75 animate-ping" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-gold" />
+                    </span>
+                    <span className="font-mono text-[10px] tracking-[0.2em] text-gold font-medium">
+                      {p.status}
                     </span>
                   </div>
 
-                  {/* Status badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="text-[10px] font-body font-medium tracking-wider uppercase px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-primary-foreground/80 border border-white/20">
-                      {project.status}
-                    </span>
-                  </div>
-
-                  {/* External link icon */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
-                    <div className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center">
-                      <ExternalLink className="w-4 h-4 text-primary-foreground/80" />
-                    </div>
+                  <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-background/60 backdrop-blur-md border border-foreground/10 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all">
+                    <ExternalLink className="w-4 h-4 text-foreground/80" />
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <span className="text-gold text-xs font-body font-medium tracking-wider uppercase">
-                    {project.category}
+                <div className="p-7">
+                  <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-gold">
+                    {p.category}
                   </span>
-                  <h3 className="text-xl font-display font-semibold text-card-foreground mt-2 mb-3">
-                    {project.title}
+                  <h3 className="text-xl font-display font-semibold text-foreground mt-2 mb-3 tracking-tight">
+                    {p.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm font-body leading-relaxed mb-4">
-                    {project.description}
+                  <p className="text-foreground/60 text-sm leading-relaxed mb-5">
+                    {p.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
+                    {p.tags.map((t) => (
                       <span
-                        key={tag}
-                        className="text-xs px-3 py-1 rounded-full bg-muted text-muted-foreground font-body font-medium"
+                        key={t}
+                        className="font-mono text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-md bg-muted/60 text-foreground/60 border border-border/40"
                       >
-                        {tag}
+                        {t}
                       </span>
                     ))}
                   </div>
