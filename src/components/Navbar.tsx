@@ -43,9 +43,8 @@ const Navbar = () => {
           <div className={`flex items-center gap-0.5 font-display text-2xl md:text-3xl font-bold transition-colors ${
             scrolled ? "text-foreground" : "text-primary-foreground"
           }`}>
-            <span className="text-gold">G</span>
-            <span className="text-gold/70">i</span>
-            <span className="text-gold">F</span>
+            <span className="text-gold">GIF</span>
+            <span className="text-gold/70">-Tech</span>
           </div>
           <div className={`hidden sm:flex flex-col leading-none ml-2 border-l pl-2 transition-colors ${
             scrolled ? "border-border" : "border-primary-foreground/20"
