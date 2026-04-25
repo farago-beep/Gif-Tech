@@ -36,11 +36,11 @@ const projects = [
     status: "EN COURS",
   },
   {
-    title: "École Ethic",
-    category: "Formation Digitale",
+    title: "Hub Talent",
+    category: "Alternance & Recrutement",
     description:
-      "Plateforme pour école du digital responsable. Présentation des formations, pédagogie, témoignages et inscription.",
-    tags: ["Formation", "Newsletter", "EdTech"],
+      "Plateforme dédiée aux étudiants en alternance et aux professionnels du recrutement. Mise en relation, profils candidats et gestion des offres.",
+    tags: ["Alternance", "Recrutement", "Matching"],
     icon: GraduationCap,
     accent: "from-emerald-500/20 to-teal-500/15",
     url: "https://id-preview--042b153d-ff17-4e2c-9ccf-bcdb231d953a.lovable.app",
