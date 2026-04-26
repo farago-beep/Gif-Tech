@@ -1,20 +1,73 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="GIF-Tech : cabinet conseil IA, automatisation et plateformes web sur mesure pour TPE et PME. Solutions à fort ROI livrées sous 90 jours." />
-    <title>GIF-Tech — IA, automatisation & plateformes web pour PME</title>
-    <meta property="og:title" content="GIF-Tech — L'innovation digitale au service de votre croissance" />
-    <meta property="og:description" content="Cabinet conseil IA, automatisation et plateformes web sur mesure pour TPE et PME." />
-    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0A0F1A" />
 
+    <title>GIF-Tech — Automatisation IA, Développement Web TPE/PME & Conseil Digital</title>
+    <meta name="description" content="GIF-Tech, cabinet conseil en Automatisation IA, Développement Web sur mesure pour TPE/PME et Conseil Digital. Plateformes, CRM et dashboards à fort ROI livrés sous 90 jours." />
+    <meta name="keywords" content="Automatisation IA, Développement Web TPE PME, Conseil Digital, CRM intelligent, Dashboard, Agence IA France" />
+    <meta name="author" content="GIF-Tech" />
+    <link rel="canonical" href="https://gif-tech.fr/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="GIF-Tech" />
+    <meta property="og:title" content="GIF-Tech — Automatisation IA & Développement Web pour TPE/PME" />
+    <meta property="og:description" content="Cabinet conseil IA, automatisation et plateformes web sur mesure. Solutions à fort ROI livrées sous 90 jours." />
+    <meta property="og:url" content="https://gif-tech.fr/" />
+    <meta property="og:image" content="https://gif-tech.fr/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="GIF-Tech — Automatisation IA & Développement Web pour TPE/PME" />
+    <meta name="twitter:description" content="Cabinet conseil IA, automatisation et plateformes web sur mesure pour TPE/PME." />
+    <meta name="twitter:image" content="https://gif-tech.fr/og-image.jpg" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "GIF-Tech",
+        "url": "https://gif-tech.fr/",
+        "logo": "https://gif-tech.fr/og-image.jpg",
+        "description": "Cabinet conseil en automatisation IA, développement web et conseil digital pour TPE/PME.",
+        "sameAs": ["https://www.linkedin.com/"],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "contact@gif-tech.fr",
+          "contactType": "customer support",
+          "areaServed": "FR",
+          "availableLanguage": ["French"]
+        }
+      }
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w,d,s,l,i){
+        if(!i) return;
+        w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+        var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+        j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+        f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','%VITE_GTM_ID%');
+    </script>
+    <!-- End Google Tag Manager -->
   </head>
 
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%VITE_GTM_ID%"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

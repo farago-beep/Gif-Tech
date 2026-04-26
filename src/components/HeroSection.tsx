@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { trackCTAClick } from "@/lib/gtm";
 
 const NodeNetwork = () => {
   // Subtle animated nodes — pure SVG, no extra deps
@@ -97,7 +98,10 @@ const HeroSection = () => {
             <Button
               size="lg"
               className="bg-gradient-gold text-primary-foreground font-semibold text-base px-8 py-6 shadow-gold hover:opacity-95 transition-all group"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => {
+                trackCTAClick("demarrer_un_projet", "hero");
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Démarrer un projet
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -106,7 +110,10 @@ const HeroSection = () => {
               size="lg"
               variant="outline"
               className="border-cyan/30 text-foreground bg-cyan/5 hover:bg-cyan/10 hover:border-cyan/50 backdrop-blur-sm font-medium text-base px-8 py-6 transition-all"
-              onClick={() => document.getElementById("configurateur")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => {
+                trackCTAClick("configurer_solution_ia", "hero");
+                document.getElementById("configurateur")?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               <Sparkles className="w-4 h-4 mr-2 text-cyan" />
               Configurer ma solution IA

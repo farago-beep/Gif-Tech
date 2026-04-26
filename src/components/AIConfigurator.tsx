@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Check, ArrowRight, Bot, Mail, FileText, BarChart3, Users, Workflow, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackCTAClick } from "@/lib/gtm";
 
 type Need = {
   id: string;
@@ -40,6 +41,7 @@ const AIConfigurator = () => {
   const tier = tierFor(selected.length);
 
   const scrollToContact = () => {
+    trackCTAClick("configurateur_devis_detaille", "configurateur");
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
