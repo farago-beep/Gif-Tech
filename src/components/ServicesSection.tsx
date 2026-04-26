@@ -38,8 +38,9 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="relative py-28 bg-background overflow-hidden">
+    <section id="services" className="relative py-28 bg-background bg-grain overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+      <div className="absolute inset-0 bg-noise opacity-30 pointer-events-none" />
 
       <div className="container mx-auto px-6 relative">
         <motion.div
@@ -69,10 +70,10 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className={`group relative bg-card rounded-2xl p-8 border transition-all duration-500 hover:-translate-y-1 ${
+              className={`group relative overflow-hidden bg-card rounded-2xl p-8 border transition-all duration-500 hover:-translate-y-1 ${
                 s.isAI
-                  ? "border-cyan/20 hover:border-cyan/50 hover:shadow-cyan"
-                  : "border-border/60 hover:border-gold/40 hover:shadow-card-hover"
+                  ? "border-cyan/20 hover:border-cyan/50 hover:shadow-cyan border-hairline-cyan glow-cyan-aura"
+                  : "border-border/60 hover:border-gold/40 hover:shadow-card-hover border-hairline-silver"
               }`}
             >
               {/* AI cyan top liseré */}
@@ -80,14 +81,17 @@ const ServicesSection = () => {
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
               )}
 
-              <div className="flex items-start justify-between mb-6">
+              <div className="relative z-10 flex items-start justify-between mb-6">
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+                  className={`relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
                     s.isAI
-                      ? "bg-cyan/10 border border-cyan/30 group-hover:glow-cyan"
+                      ? "bg-cyan/10 border border-cyan/30 group-hover:glow-cyan-strong"
                       : "bg-gold/10 border border-gold/20 group-hover:glow-gold"
                   }`}
                 >
+                  {s.isAI && (
+                    <span className="absolute inset-0 rounded-xl bg-cyan/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden />
+                  )}
                   <s.icon className={`w-5 h-5 ${s.isAI ? "text-cyan" : "text-gold"}`} />
                 </div>
                 {s.isAI && (
@@ -97,14 +101,14 @@ const ServicesSection = () => {
                 )}
               </div>
 
-              <h3 className="text-2xl font-display font-semibold text-foreground mb-3 tracking-tight">
+              <h3 className="relative z-10 text-2xl font-display font-semibold text-foreground mb-3 tracking-tight">
                 {s.title}
               </h3>
-              <p className="text-foreground/60 leading-relaxed text-[15px] mb-6">
+              <p className="relative z-10 text-foreground/60 leading-relaxed text-[15px] mb-6">
                 {s.description}
               </p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="relative z-10 flex flex-wrap gap-2">
                 {s.tags.map((t) => (
                   <span
                     key={t}
