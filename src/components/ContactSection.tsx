@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { trackFormSubmissionSuccess, trackCalendlyClick } from "@/lib/gtm";
 
 const budgets = [
   "< 3 000 €",
@@ -25,11 +26,17 @@ const ContactSection = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      const form = e.target as HTMLFormElement;
+      const data = new FormData(form);
+      trackFormSubmissionSuccess("contact_b2b", {
+        has_company: Boolean(data.get("company")),
+        budget: (data.get("budget") as string) || "non_renseigne",
+      });
       toast({
         title: "Demande envoyée",
         description: "Nous revenons vers vous sous 24 à 48h avec une proposition cadrée.",
       });
-      (e.target as HTMLFormElement).reset();
+      form.reset();
     }, 1000);
   };
 
@@ -63,6 +70,7 @@ const ContactSection = () => {
                 href="https://calendly.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackCalendlyClick()}
                 className="flex items-center gap-3 p-4 rounded-xl border border-cyan/30 bg-cyan/5 hover:bg-cyan/10 hover:border-cyan/50 transition-all group"
               >
                 <div className="w-10 h-10 rounded-lg bg-cyan/15 border border-cyan/30 flex items-center justify-center">
