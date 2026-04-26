@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { trackCTAClick } from "@/lib/gtm";
@@ -46,14 +47,23 @@ const NodeNetwork = () => {
 };
 
 const HeroSection = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const yNodes = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const yGoldBlob = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const yCyanBlob = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, 40]);
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-hero">
+    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden bg-hero bg-grain">
       {/* Layered backgrounds */}
-      <div className="absolute inset-0 bg-grid opacity-40" />
-      <NodeNetwork />
+      <motion.div style={{ y: yGrid }} className="absolute inset-0 bg-grid opacity-40" />
+      <motion.div style={{ y: yNodes }} className="absolute inset-0">
+        <NodeNetwork />
+      </motion.div>
+      <div className="absolute inset-0 bg-noise opacity-[0.35] mix-blend-overlay pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
-      <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-gold/10 blur-[120px] float-slow" />
-      <div className="absolute -bottom-32 -left-32 w-[36rem] h-[36rem] rounded-full bg-cyan/10 blur-[120px]" />
+      <motion.div style={{ y: yGoldBlob }} className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-gold/10 blur-[120px] float-slow" />
+      <motion.div style={{ y: yCyanBlob }} className="absolute -bottom-32 -left-32 w-[36rem] h-[36rem] rounded-full bg-cyan/10 blur-[120px]" />
 
       <div className="relative z-10 container mx-auto px-6 py-32">
         <motion.div
