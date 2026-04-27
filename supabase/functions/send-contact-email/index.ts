@@ -87,7 +87,7 @@ Deno.serve(async (req) => {
     const { data, error } = await resend.emails.send({
       from: FROM,
       to: [TO],
-      reply_to: body.email,
+      replyTo: body.email,
       subject: `Nouveau lead — ${body.fullName} (${body.need})`,
       html,
     });
