@@ -64,9 +64,13 @@ Deno.serve(async (req) => {
     const resend = new Resend(apiKey);
 
     // NOTE: tant que gif-tech.fr n'est pas vérifié sur Resend,
-    // on envoie depuis onboarding@resend.dev (autorisé sans domaine).
+    // - on envoie DEPUIS onboarding@resend.dev (autorisé sans domaine)
+    // - on envoie VERS l'adresse propriétaire du compte Resend (mode test)
+    // Une fois le domaine vérifié sur resend.com/domains, remplacez :
+    //   FROM -> "GiF-Tech <contact@gif-tech.fr>"
+    //   TO   -> "contact@gif-tech.fr"
     const FROM = "GiF-Tech <onboarding@resend.dev>";
-    const TO = "contact@gif-tech.fr";
+    const TO = Deno.env.get("CONTACT_TO_EMAIL") || "farago.giuseppe@gmail.com";
 
     const html = `
       <h2>Nouvelle demande de contact — GiF-Tech</h2>
