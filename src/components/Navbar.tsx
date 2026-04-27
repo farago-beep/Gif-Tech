@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import logo from "@/assets/gif-tech-logo.png";
+import { Menu, X, Sparkles } from "lucide-react";
 
 const navLinks = [
   { label: "Solutions", href: "#services" },
@@ -43,15 +42,12 @@ const Navbar = () => {
           className="flex items-center gap-3 group"
           aria-label="GIF-Tech accueil"
         >
-          <img
-            src={logo}
-            alt="GIF-Tech logo"
-            width={40}
-            height={40}
-            className="w-10 h-10 object-contain"
-          />
-          <div className="font-display text-2xl font-semibold tracking-tight text-gradient-gold">
-            GIF-TECH
+          <div className="relative w-9 h-9 rounded-xl bg-gradient-gold flex items-center justify-center shadow-gold">
+            <Sparkles className="w-4 h-4 text-primary-foreground" strokeWidth={2.5} />
+          </div>
+          <div className="font-display text-2xl font-semibold tracking-tight">
+            <span className="text-gradient-gold">GIF</span>
+            <span className="text-foreground/80">-Tech</span>
           </div>
         </button>
 
