@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { trackFormSubmissionSuccess, trackCalendlyClick } from "@/lib/gtm";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const needs = [
   "Automatisation IA",
@@ -64,7 +66,7 @@ const ContactSection = () => {
     if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = contactSchema.safeParse(values);
     if (!result.success) {
@@ -77,8 +79,28 @@ const ContactSection = () => {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          fullName: values.fullName,
+          email: values.email,
+          company: values.company,
+          need: values.need,
+          budget: values.budget,
+          message: values.message,
+        },
+      });
+
+      if (error || (data && (data as { error?: string }).error)) {
+        console.error("Erreur envoi formulaire:", error || data);
+        toast({
+          title: "Envoi impossible",
+          description: "Une erreur est survenue. Réessayez ou écrivez-nous à contact@gif-tech.fr.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       setSuccess(true);
       trackFormSubmissionSuccess("contact_b2b", {
         has_company: Boolean(values.company),
@@ -86,7 +108,16 @@ const ContactSection = () => {
         need: values.need,
       });
       setValues(initialState);
-    }, 900);
+    } catch (err) {
+      console.error("Exception envoi formulaire:", err);
+      toast({
+        title: "Erreur réseau",
+        description: "Impossible de joindre le serveur. Réessayez dans un instant.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const errorClass = "mt-1.5 text-xs text-red-400/90 font-medium";
