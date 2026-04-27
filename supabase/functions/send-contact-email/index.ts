@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
     const html = `
       <h2>Nouvelle demande de contact — GiF-Tech</h2>
       <p><strong>Nom :</strong> ${escapeHtml(body.fullName)}</p>
-      <p><strong>Email :</strong> ${escapeHtml(body.email)}</p>
+      <p><strong>Email :</strong> <a href="mailto:${escapeHtml(body.email)}">${escapeHtml(body.email)}</a></p>
       <p><strong>Entreprise :</strong> ${escapeHtml(body.company || "—")}</p>
       <p><strong>Besoin :</strong> ${escapeHtml(body.need)}</p>
       <p><strong>Budget :</strong> ${escapeHtml(body.budget)}</p>
