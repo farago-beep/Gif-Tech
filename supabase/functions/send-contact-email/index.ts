@@ -16,6 +16,42 @@ interface ContactPayload {
   message: string;
 }
 
+const ALLOWED_NEEDS = new Set([
+  "Automatisation IA",
+  "Stratégie Growth B2B",
+  "Développement Web/App",
+  "Audit & Conseil Digital",
+]);
+
+const ALLOWED_BUDGETS = new Set([
+  "< 2 000 €",
+  "2 000 € - 5 000 €",
+  "5 000 € - 10 000 €",
+  "> 10 000 €",
+]);
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validatePayload(b: unknown): { ok: true; data: ContactPayload } | { ok: false } {
+  if (!b || typeof b !== "object") return { ok: false };
+  const o = b as Record<string, unknown>;
+  const fullName = typeof o.fullName === "string" ? o.fullName.trim() : "";
+  const email = typeof o.email === "string" ? o.email.trim() : "";
+  const company = typeof o.company === "string" ? o.company.trim() : "";
+  const need = typeof o.need === "string" ? o.need : "";
+  const budget = typeof o.budget === "string" ? o.budget : "";
+  const message = typeof o.message === "string" ? o.message.trim() : "";
+
+  if (fullName.length < 2 || fullName.length > 100) return { ok: false };
+  if (email.length > 255 || !EMAIL_RE.test(email)) return { ok: false };
+  if (company.length > 100) return { ok: false };
+  if (!ALLOWED_NEEDS.has(need)) return { ok: false };
+  if (!ALLOWED_BUDGETS.has(budget)) return { ok: false };
+  if (message.length < 10 || message.length > 2000) return { ok: false };
+
+  return { ok: true, data: { fullName, email, company, need, budget, message } };
+}
+
 const escapeHtml = (s: string) =>
   s
     .replace(/&/g, "&amp;")
@@ -46,20 +82,30 @@ Deno.serve(async (req) => {
       );
     }
 
-    const body = (await req.json()) as ContactPayload;
-    console.log("[send-contact-email] payload received:", {
-      email: body?.email,
-      need: body?.need,
-      budget: body?.budget,
-      hasCompany: Boolean(body?.company),
-    });
-
-    if (!body?.fullName || !body?.email || !body?.need || !body?.budget || !body?.message) {
+    let raw: unknown;
+    try {
+      raw = await req.json();
+    } catch {
       return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
+        JSON.stringify({ error: "Invalid request" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
+
+    const validation = validatePayload(raw);
+    if (!validation.ok) {
+      console.warn("[send-contact-email] payload validation failed");
+      return new Response(
+        JSON.stringify({ error: "Invalid request" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    const body = validation.data;
+    console.log("[send-contact-email] payload accepted:", {
+      need: body.need,
+      budget: body.budget,
+      hasCompany: Boolean(body.company),
+    });
 
     const resend = new Resend(apiKey);
 
@@ -95,7 +141,7 @@ Deno.serve(async (req) => {
     if (error) {
       console.error("[send-contact-email] Resend error:", error);
       return new Response(
-        JSON.stringify({ error: "Failed to send email", details: error }),
+        JSON.stringify({ error: "Email could not be sent. Please try again later." }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
@@ -108,7 +154,7 @@ Deno.serve(async (req) => {
   } catch (err) {
     console.error("[send-contact-email] unexpected error:", err);
     return new Response(
-      JSON.stringify({ error: "Unexpected error", message: String(err) }),
+      JSON.stringify({ error: "Email could not be sent. Please try again later." }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }

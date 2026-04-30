@@ -47,20 +47,17 @@ export default function Admin() {
 
   const claimAdmin = async () => {
     if (!userId) return;
-    // Allow only if no admin exists yet (handled by checking count)
-    const { count } = await supabase
-      .from("user_roles")
-      .select("*", { count: "exact", head: true })
-      .eq("role", "admin");
-    if ((count ?? 0) > 0) {
-      toast.error("Un administrateur existe déjà. Demandez-lui de vous ajouter.");
+    // Server-side guard: claim_first_admin atomically grants admin only if no admin exists yet.
+    const { data, error } = await supabase.rpc("claim_first_admin" as never);
+    if (error) {
+      toast.error(error.message);
       return;
     }
-    const { error } = await supabase.from("user_roles").insert({ user_id: userId, role: "admin" });
-    if (error) toast.error(error.message);
-    else {
+    if (data === true) {
       toast.success("Vous êtes maintenant administrateur");
       setIsAdmin(true);
+    } else {
+      toast.error("Un administrateur existe déjà. Demandez-lui de vous ajouter.");
     }
   };
 
