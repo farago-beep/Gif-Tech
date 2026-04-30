@@ -14,16 +14,196 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_projects: {
+        Row: {
+          client_name: string
+          created_at: string
+          id: string
+          manager: string | null
+          notes: string | null
+          project_name: string
+          stage: Database["public"]["Enums"]["project_stage"]
+          status: Database["public"]["Enums"]["project_status"]
+          updated_at: string
+        }
+        Insert: {
+          client_name: string
+          created_at?: string
+          id?: string
+          manager?: string | null
+          notes?: string | null
+          project_name: string
+          stage?: Database["public"]["Enums"]["project_stage"]
+          status?: Database["public"]["Enums"]["project_status"]
+          updated_at?: string
+        }
+        Update: {
+          client_name?: string
+          created_at?: string
+          id?: string
+          manager?: string | null
+          notes?: string | null
+          project_name?: string
+          stage?: Database["public"]["Enums"]["project_stage"]
+          status?: Database["public"]["Enums"]["project_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      client_invoices: {
+        Row: {
+          amount: number
+          client_name: string
+          created_at: string
+          due_date: string | null
+          id: string
+          invoice_number: string | null
+          issued_at: string
+          notes: string | null
+          status: Database["public"]["Enums"]["invoice_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          client_name: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number?: string | null
+          issued_at?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          client_name?: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          invoice_number?: string | null
+          issued_at?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      contacts: {
+        Row: {
+          created_at: string
+          drive_link: string | null
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          type: Database["public"]["Enums"]["contact_type"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          drive_link?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          type: Database["public"]["Enums"]["contact_type"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          drive_link?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          type?: Database["public"]["Enums"]["contact_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vendor_invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          invoice_number: string | null
+          notes: string | null
+          received_at: string
+          scheduled_payment_date: string | null
+          status: Database["public"]["Enums"]["invoice_status"]
+          updated_at: string
+          vendor_name: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          received_at?: string
+          scheduled_payment_date?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+          vendor_name: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          invoice_number?: string | null
+          notes?: string | null
+          received_at?: string
+          scheduled_payment_date?: string | null
+          status?: Database["public"]["Enums"]["invoice_status"]
+          updated_at?: string
+          vendor_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      contact_type: "client" | "prestataire"
+      invoice_status: "Payé" | "En attente"
+      project_stage: "Onboarding" | "Audit" | "Dev" | "Test" | "Livraison"
+      project_status: "À faire" | "En cours" | "Bloqué" | "Terminé"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +330,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      contact_type: ["client", "prestataire"],
+      invoice_status: ["Payé", "En attente"],
+      project_stage: ["Onboarding", "Audit", "Dev", "Test", "Livraison"],
+      project_status: ["À faire", "En cours", "Bloqué", "Terminé"],
+    },
   },
 } as const
