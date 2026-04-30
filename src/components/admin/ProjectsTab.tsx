@@ -60,7 +60,8 @@ export default function ProjectsTab() {
   useEffect(() => { load(); }, []);
 
   const updateField = async (id: string, field: "stage" | "status", value: string) => {
-    const { error } = await supabase.from("admin_projects").update({ [field]: value }).eq("id", id);
+    const payload = field === "stage" ? { stage: value as Stage } : { status: value as Status };
+    const { error } = await supabase.from("admin_projects").update(payload).eq("id", id);
     if (error) toast.error(error.message);
     else {
       setProjects((p) => p.map((x) => (x.id === id ? { ...x, [field]: value as never } : x)));
