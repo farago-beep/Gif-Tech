@@ -1,4 +1,5 @@
 import { Resend } from "npm:resend@4.0.0";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -60,6 +61,26 @@ const escapeHtml = (s: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
+// Hash an IP address with a server-side secret so we never store raw IPs.
+async function hashIp(ip: string): Promise<string> {
+  const salt = Deno.env.get("SUPABASE_JWKS") ?? Deno.env.get("SUPABASE_URL") ?? "gif-tech-rl";
+  const data = new TextEncoder().encode(`${salt}::${ip}`);
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function getClientIp(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0].trim();
+  return (
+    req.headers.get("cf-connecting-ip") ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -106,6 +127,45 @@ Deno.serve(async (req) => {
       budget: body.budget,
       hasCompany: Boolean(body.company),
     });
+
+    // ---- Rate limiting (per IP, server-enforced) ----
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (supabaseUrl && serviceKey) {
+      const admin = createClient(supabaseUrl, serviceKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+      const ipHash = await hashIp(getClientIp(req));
+      const { data: rl, error: rlErr } = await admin.rpc("check_contact_rate_limit", {
+        _ip_hash: ipHash,
+      });
+      if (rlErr) {
+        console.error("[send-contact-email] rate-limit RPC error:", rlErr);
+        // Fail-closed on rate limit infra error to avoid abuse.
+        return new Response(
+          JSON.stringify({ error: "Service temporarily unavailable. Please try again later." }),
+          { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      const row = Array.isArray(rl) ? rl[0] : rl;
+      if (row && row.allowed === false) {
+        const retry = Math.max(1, Number(row.retry_after_seconds) || 60);
+        console.warn("[send-contact-email] rate limit hit, retry in", retry, "s");
+        return new Response(
+          JSON.stringify({ error: "Too many requests. Please try again later." }),
+          {
+            status: 429,
+            headers: {
+              ...corsHeaders,
+              "Content-Type": "application/json",
+              "Retry-After": String(retry),
+            },
+          },
+        );
+      }
+    } else {
+      console.error("[send-contact-email] Supabase service env vars missing — skipping rate limit");
+    }
 
     const resend = new Resend(apiKey);
 
